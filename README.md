@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Socratic Tutor
 
-## Getting Started
+A focused landing page for an AI-powered tutor that helps students reason through problems instead of giving direct answers.
 
-First, run the development server:
+The project is built to communicate the product idea quickly: a calm educational brand, a sample Socratic tutoring conversation, and a clear call to action for the future learning flow.
+
+## Current Status
+
+- Custom landing page replaces the default Next.js starter screen.
+- Brand metadata and favicon have been updated for Socratic Tutor.
+- Default starter assets were removed to keep the project focused.
+- The landing CTA currently points to `/learn`, which is planned but not implemented yet.
+
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- ESLint
+
+## Product Direction
+
+Socratic Tutor is intended to become an interactive learning assistant that guides users with questions, hints, and reasoning prompts. The first milestone is a polished landing page that establishes the product concept and visual direction.
+
+## Recruiter Notes
+
+This repository demonstrates:
+
+- Building a modern Next.js app from a clean starter foundation.
+- Converting a generic template into a product-specific experience.
+- Using semantic components and JSX conventions correctly.
+- Keeping project documentation current with implementation changes.
+- Maintaining a deployable app with passing lint and production build checks.
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quality Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run lint checks:
 
-## Learn More
+```bash
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+Run a production build:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Maintenance Note
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The README should be updated whenever product-facing changes are pushed so recruiters and reviewers can quickly understand the current state of the project.
