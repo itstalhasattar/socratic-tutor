@@ -1,6 +1,6 @@
 export type TMessage = {
-  role: "user" | "model";
-  message: string;
+  role: "user" | "assistant";
+  content: string;
 };
 
 export type TMessagesHistory = TMessage[];

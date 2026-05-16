@@ -9,11 +9,11 @@ export default function ChatSession() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [input, setInput] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<TMessagesHistory>([
     {
-      role: "model",
-      message:
+      role: "assistant",
+      content:
         "What would you like to explore today? Choose a concept, problem, or idea to think through.",
     },
   ]);
@@ -30,7 +30,7 @@ export default function ChatSession() {
 
     const newMessage: TMessage = {
       role: "user",
-      message: trimmedMessage,
+      content: trimmedMessage,
     };
     setMessages((prev) => [...prev, newMessage]);
     setInput("");
@@ -42,15 +42,18 @@ export default function ChatSession() {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       const modelReply: TMessage = {
-        role: "model",
-        message: "Good question. Let’s think through it step by step.",
+        role: "assistant",
+        content: "Good question. Let’s think through it step by step.",
       };
 
       setMessages((prevMessages) => [...prevMessages, modelReply]);
 
-      setLoading(false);
+      
     } catch (err) {
       console.error(err);
+    }
+    finally {
+      setLoading(false);
     }
   }
 
@@ -142,10 +145,10 @@ export default function ChatSession() {
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-3xl px-6 py-8 mx-auto space-y-5">
           {messages.map((m, i) =>
-            m.role === "model" ? (
-              <ModelMessage key={i} message={m.message} />
+            m.role === "assistant" ? (
+              <ModelMessage key={i} message={m.content} />
             ) : (
-              <UserMessage key={i} message={m.message} />
+              <UserMessage key={i} message={m.content} />
             ),
           )}
           {loading && <ModelMessage message="Thinking..." />}
@@ -165,7 +168,7 @@ export default function ChatSession() {
               name="message"
               disabled={loading}
               placeholder="Type your answer or ask a question..."
-              className="flex-1 bg-transparent text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none disabled:"
+              className="flex-1 bg-transparent text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none "
               autoComplete="off"
               onChange={(e) => setInput(e.target.value)}
               value={input}

@@ -24,16 +24,15 @@ The project is built to communicate the product idea quickly: a calm educational
 
 Socratic Tutor is intended to become an interactive learning assistant that guides users with questions, hints, and reasoning prompts. The current milestone pairs a polished landing page with a working prototype chat interface that can later connect to a model API.
 
-## Recruiter Notes
+## Project Highlights
 
-This repository demonstrates:
+This project focuses on:
 
-- Building a modern Next.js app from a clean starter foundation.
-- Converting a generic template into a product-specific experience.
-- Creating an early chat interaction flow with reusable message components.
-- Using semantic components and JSX conventions correctly.
-- Keeping project documentation current with implementation changes.
-- Maintaining a deployable app with passing lint and production build checks.
+- A clear product concept with a focused landing experience.
+- A responsive interface that works across desktop and mobile layouts.
+- An early chat interaction flow with reusable message components.
+- A simple structure that can grow into a full tutoring experience.
+- A deployable app with documented setup and quality checks.
 
 ## Local Development
 
@@ -67,4 +66,4 @@ npm run build
 
 ## Maintenance Note
 
-The README should be updated whenever product-facing changes are pushed so recruiters and reviewers can quickly understand the current state of the project.
+The README should be updated whenever product-facing changes are pushed so the project stays aligned with the current app experience.
