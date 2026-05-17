@@ -5,6 +5,7 @@ import UserMessage from "./UserMessage";
 import ModelMessage from "./ModelMessage";
 import { TMessage, TMessagesHistory } from "@/consts/chat";
 
+
 export default function ChatSession() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,22 +33,33 @@ export default function ChatSession() {
       role: "user",
       content: trimmedMessage,
     };
-    setMessages((prev) => [...prev, newMessage]);
+
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     setInput("");
     setLoading(true);
 
     try {
       // We build the logic here later
       console.log(newMessage);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/chat", {
+        method:"POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(updatedMessages)
+      });
+      const result  = await response.json()
+      if (!response.ok || !result.success) {
+        console.log("Error", result.error)
+        return;
+      }
 
-      const modelReply: TMessage = {
-        role: "assistant",
-        content: "Good question. Let’s think through it step by step.",
-      };
+      const newModelMessage:TMessage = {role:"assistant", content:result.message}
+      setMessages((prev)=>[...prev, newModelMessage])
 
-      setMessages((prevMessages) => [...prevMessages, modelReply]);
-
+      
+      console.log("success")
       
     } catch (err) {
       console.error(err);
@@ -120,10 +132,10 @@ export default function ChatSession() {
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#F1EFE8] to-[#FAFAF7] border border-[#E5E5E2]">
               <span className="relative flex w-2 h-2">
                 <span className="absolute inline-flex w-full h-full rounded-full bg-[#D4A24C] opacity-60 animate-ping" />
-                <span className="relative inline-flex w-2 h-2 rounded-full bg-[#D4A24C]" />
+                <span className="relative inline-flex w-2 h-2 rounded-full bg-green-800" />
               </span>
               <span className="text-xs font-medium text-[#1E2A47]">
-                Session active
+                Session Active
               </span>
             </div>
 
