@@ -13,6 +13,8 @@ The project is built to communicate the product idea quickly: a calm educational
 - The chat flow stores user input, appends messages to local state, shows loading feedback, and auto-scrolls to the newest message.
 - `/api/chat` validates conversation history before sending it to the model layer.
 - The backend uses a server-only Anthropic helper with a Socratic system prompt to generate tutor responses.
+- Daily input and output token usage is tracked with Redis to protect the shared demo budget.
+- Chat errors and validation messages are surfaced with toast notifications.
 
 ## Tech Stack
 
@@ -22,6 +24,8 @@ The project is built to communicate the product idea quickly: a calm educational
 - Tailwind CSS 4
 - Zod
 - Anthropic SDK
+- Upstash Redis
+- Sonner
 - ESLint
 
 ## Product Direction
@@ -36,6 +40,8 @@ This project focuses on:
 - A responsive interface that works across desktop and mobile layouts.
 - A chat interaction flow with reusable message components.
 - Server-side message validation before model requests.
+- Daily token limiting for shared demo usage.
+- User-facing feedback for validation and API errors.
 - A dedicated Socratic system prompt that shapes tutor behavior.
 - A deployable app with documented setup and quality checks.
 
@@ -55,10 +61,14 @@ npm run dev
 
 Open `http://localhost:3000` in your browser.
 
-Create a local `.env` file with your Anthropic API key before using the model-backed chat:
+Create a local `.env` file with the required API and limit values before using the model-backed chat:
 
 ```bash
 ANTHROPIC_API_KEY=your_api_key_here
+UPSTASH_REDIS_REST_URL=your_redis_rest_url_here
+UPSTASH_REDIS_REST_TOKEN=your_redis_rest_token_here
+DAILY_INPUT_TOKEN_LIMIT=300000
+DAILY_OUTPUT_TOKEN_LIMIT=200000
 ```
 
 ## Quality Checks

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import UserMessage from "./UserMessage";
 import ModelMessage from "./ModelMessage";
 import { TMessage, TMessagesHistory } from "@/consts/chat";
-
+import { toast } from "sonner";
 
 export default function ChatSession() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -43,28 +43,32 @@ export default function ChatSession() {
       // We build the logic here later
       console.log(newMessage);
       const response = await fetch("/api/chat", {
-        method:"POST",
-        headers : {
-          "Content-Type" : "application/json"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedMessages)
+        body: JSON.stringify(updatedMessages),
       });
-      const result  = await response.json()
+      const result = await response.json();
       if (!response.ok || !result.success) {
-        console.log("Error", result.error)
+        const errorMessage = getErrorMessage(result.error);
+
+        toast.error(errorMessage);
+        console.log("Error", result.error);
         return;
       }
 
-      const newModelMessage:TMessage = {role:"assistant", content:result.message}
-      setMessages((prev)=>[...prev, newModelMessage])
+      const newModelMessage: TMessage = {
+        role: "assistant",
+        content: result.message,
+      };
+      setMessages((prev) => [...prev, newModelMessage]);
 
-      
-      console.log("success")
-      
+      console.log("success");
     } catch (err) {
       console.error(err);
-    }
-    finally {
+      toast.error("Something Went Wrong Please Try Again");
+    } finally {
       setLoading(false);
     }
   }
@@ -209,4 +213,29 @@ export default function ChatSession() {
       </footer>
     </section>
   );
+}
+
+function getErrorMessage(error: unknown) {
+  if (typeof error === "string") {
+    return error;
+  }
+
+  if (error && typeof error === "object") {
+    const zodError = error as {
+      formErrors?: string[];
+      fieldErrors?: Record<string, string[]>;
+    };
+
+    const formError = zodError.formErrors?.[0];
+    if (formError) {
+      return formError;
+    }
+
+    const fieldError = Object.values(zodError.fieldErrors ?? {})[0]?.[0];
+    if (fieldError) {
+      return fieldError;
+    }
+  }
+
+  return "Invalid request. Please check your message.";
 }
