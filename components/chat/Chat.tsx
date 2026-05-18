@@ -3,25 +3,34 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import UserMessage from "./UserMessage";
 import ModelMessage from "./ModelMessage";
+import ModelLoading from "./ModelLoading";
 import { TMessage, TMessagesHistory } from "@/consts/chat";
 import { toast } from "sonner";
+
+const INITIAL_MESSAGE: TMessage = {
+  role: "assistant",
+  content:
+    "What would you like to explore today? Choose a concept, problem, or idea to think through.",
+};
 
 export default function ChatSession() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [input, setInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<TMessagesHistory>([
-    {
-      role: "assistant",
-      content:
-        "What would you like to explore today? Choose a concept, problem, or idea to think through.",
-    },
-  ]);
+  const [messages, setMessages] = useState<TMessagesHistory>([INITIAL_MESSAGE]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+  }, [messages]);
+
+  function handleClear() {
+    setMessages([INITIAL_MESSAGE]);
+    setInput("");
+    toast.success("Started a fresh conversation");
+  }
+
+  const userMessageCount = messages.filter((m) => m.role === "user").length;
 
   async function handleMessage(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -67,7 +76,7 @@ export default function ChatSession() {
       console.log("success");
     } catch (err) {
       console.error(err);
-      toast.error("Something Went Wrong Please Try Again");
+      toast.error("The tutor hit a snag. Give it a moment and try again.");
     } finally {
       setLoading(false);
     }
@@ -132,7 +141,15 @@ export default function ChatSession() {
           </div>
 
           {/* Right cluster: status */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {userMessageCount > 1 && (
+              <button
+                onClick={handleClear}
+                className="px-3 py-1.5 text-xs font-medium text-[#4A4A4A] transition-colors rounded-full hover:text-[#1E2A47] hover:bg-[#F1EFE8]"
+              >
+                Start over
+              </button>
+            )}
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#F1EFE8] to-[#FAFAF7] border border-[#E5E5E2]">
               <span className="relative flex w-2 h-2">
                 <span className="absolute inline-flex w-full h-full rounded-full bg-[#D4A24C] opacity-60 animate-ping" />
@@ -147,7 +164,7 @@ export default function ChatSession() {
             <div className="sm:hidden flex items-center justify-center w-9 h-9">
               <span className="relative flex w-2.5 h-2.5">
                 <span className="absolute inline-flex w-full h-full rounded-full bg-[#D4A24C] opacity-60 animate-ping" />
-                <span className="relative inline-flex w-2.5 h-2.5 rounded-full bg-[#D4A24C]" />
+                <span className="relative inline-flex w-2.5 h-2.5 rounded-full bg-green-800" />
               </span>
             </div>
           </div>
@@ -167,7 +184,7 @@ export default function ChatSession() {
               <UserMessage key={i} message={m.content} />
             ),
           )}
-          {loading && <ModelMessage message="Thinking..." />}
+          {loading && <ModelLoading />}
           <div ref={bottomRef} />
         </div>
       </main>
@@ -175,6 +192,16 @@ export default function ChatSession() {
       {/* Input bar */}
       <footer className="border-t border-[#E5E5E2] bg-white">
         <div className="max-w-3xl px-6 py-4 mx-auto">
+          <div className="flex items-center gap-2 mb-2">
+            <p className="text-[11px] text-[#4A4A4A]">
+              {userMessageCount}/20 questions asked
+            </p>
+            {input.length > 0 && (
+              <p className={`text-[11px] ml-auto ${input.length > 2900 ? "text-red-500" : "text-[#4A4A4A]"}`}>
+                {input.length}/3000
+              </p>
+            )}
+          </div>
           <form
             onSubmit={handleMessage}
             className="flex items-center gap-2 bg-[#FAFAF7] border border-[#E5E5E2] rounded-full px-5 py-2.5 focus-within:border-[#1E2A47] transition-colors"
@@ -209,6 +236,9 @@ export default function ChatSession() {
               </svg>
             </button>
           </form>
+          <p className="mt-2 text-[11px] text-[#4A4A4A] text-center">
+            Press Enter to send &middot; Token usage limited per conversation
+          </p>
         </div>
       </footer>
     </section>
@@ -237,5 +267,5 @@ function getErrorMessage(error: unknown) {
     }
   }
 
-  return "Invalid request. Please check your message.";
+  return "Something went wrong with your request. Try rephrasing your message.";
 }

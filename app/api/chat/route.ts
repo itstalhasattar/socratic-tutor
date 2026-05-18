@@ -45,13 +45,12 @@ export async function POST(req: Request) {
             return NextResponse.json(
                 {
                     success: false,
-                    error: "Daily token limit has been used. Please try again tomorrow.",
+                    error: "You've hit the daily usage cap. Check back tomorrow for more!",
                 },
                 { status: 429 }
             );
         }
         const { message, inputToken, outputToken } = await assistant(parsedData.data)
-        console.log({ message, inputToken, outputToken })
 
         await incrementDailyTokenUsage(InputTokenKey, inputToken);
         await incrementDailyTokenUsage(OutputTokenKey, outputToken);
@@ -68,7 +67,7 @@ export async function POST(req: Request) {
     catch (error) {
         console.error("External service error:", error);
 
-        return NextResponse.json({ success: false, error: "Something went wrong. Please try again." },
+        return NextResponse.json({ success: false, error: "The tutor hit a snag. Give it a moment and try again." },
             { status: 500 })
     }
 }

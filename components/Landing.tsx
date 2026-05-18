@@ -2,7 +2,8 @@ import Link from "next/link";
 
 export default function Landing() {
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 py-10 lg:py-6">
+    <div className="min-h-screen lg:h-screen lg:flex lg:flex-col">
+      <section className="flex flex-1 items-center justify-center px-6 py-10 lg:py-6">
       <div className="grid items-center w-full max-w-6xl gap-10 mx-auto lg:grid-cols-2 lg:gap-16">
         {/* Left column: intro */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
@@ -29,19 +30,36 @@ export default function Landing() {
             Socratic Tutor
           </h1>
 
-          <p className="mt-3 text-lg font-medium text-[#1E2A47] md:text-xl">
-            I won&apos;t give you answers. I&apos;ll help you find them.
+          <p className="mt-4 text-lg leading-snug text-[#1E2A47] md:text-xl">
+            Learn by thinking, not by copying.
           </p>
 
-          <p className="max-w-md mt-4 leading-relaxed text-[#4A4A4A]">
-            Most tutors hand you the answer. This one asks you questions until
-            you find it yourself. Built on the Socratic method &mdash; the
-            oldest learning technique we have, now powered by Claude.
+          <p className="max-w-md mt-5 leading-relaxed text-[#4A4A4A]">
+            A tutor that never gives you the answer &mdash; it asks the right
+            question at the right time until you figure things out yourself.
+            Pick any topic: math, programming, science, philosophy. Claude
+            adapts to your level and guides you step by step.
           </p>
+
+          <div className="max-w-md mt-8 space-y-3">
+            <p className="text-xs font-semibold tracking-[0.16em] uppercase text-[#D4A24C]">
+              What to know
+            </p>
+            <div className="grid gap-2.5 text-sm leading-relaxed text-[#4A4A4A]">
+              <div className="flex items-start gap-2.5">
+                <span className="mt-0.5 flex-shrink-0 w-1 h-1 rounded-full bg-[#D4A24C]" />
+                <span>20 questions per session &mdash; make them count.</span>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <span className="mt-0.5 flex-shrink-0 w-1 h-1 rounded-full bg-[#D4A24C]" />
+                <span>Shared daily token budget &mdash; the tutor is free, not unlimited.</span>
+              </div>
+            </div>
+          </div>
 
           <Link
             href="/learn"
-            className="px-8 py-3 mt-8 font-medium text-white transition-colors rounded-lg cursor-pointer bg-[#1E2A47] hover:bg-[#2a3a60]"
+            className="px-8 py-3 mt-8 font-medium text-white transition-all rounded-lg cursor-pointer bg-[#1E2A47] hover:bg-[#2a3a60] hover:scale-[1.02]"
           >
             Start learning
           </Link>
@@ -54,7 +72,7 @@ export default function Landing() {
           </p>
 
           <div className="flex flex-col gap-3 p-5 bg-white border border-[#E5E5E2] rounded-2xl md:p-6">
-            <div className="flex justify-end">
+            <div className="flex justify-end opacity-0 animate-fade-up" style={{ animationDelay: "0.1s" }}>
               <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-[#1E2A47] px-4 py-2.5 text-white">
                 <p className="text-sm">
                   What&apos;s the derivative of x squared?
@@ -62,7 +80,7 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="flex justify-start gap-2.5">
+            <div className="flex justify-start gap-2.5 opacity-0 animate-fade-up" style={{ animationDelay: "0.25s" }}>
               <div className="flex items-center justify-center flex-shrink-0 w-7 h-7 mt-1 rounded-full bg-[#D4A24C]">
                 <svg
                   className="w-3.5 h-3.5"
@@ -86,13 +104,13 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end opacity-0 animate-fade-up" style={{ animationDelay: "0.4s" }}>
               <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-[#1E2A47] px-4 py-2.5 text-white">
                 <p className="text-sm">Bring it down and subtract one?</p>
               </div>
             </div>
 
-            <div className="flex justify-start gap-2.5">
+            <div className="flex justify-start gap-2.5 opacity-0 animate-fade-up" style={{ animationDelay: "0.55s" }}>
               <div className="flex items-center justify-center flex-shrink-0 w-7 h-7 mt-1 rounded-full bg-[#D4A24C]">
                 <svg
                   className="w-3.5 h-3.5"
@@ -115,13 +133,13 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end opacity-0 animate-fade-up" style={{ animationDelay: "0.7s" }}>
               <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-[#1E2A47] px-4 py-2.5 text-white">
                 <p className="text-sm">2x.</p>
               </div>
             </div>
 
-            <div className="flex justify-start gap-2.5">
+            <div className="flex justify-start gap-2.5 opacity-0 animate-fade-up" style={{ animationDelay: "0.85s" }}>
               <div className="flex items-center justify-center flex-shrink-0 w-7 h-7 mt-1 rounded-full bg-[#D4A24C]">
                 <svg
                   className="w-3.5 h-3.5"
@@ -143,9 +161,44 @@ export default function Landing() {
                 </p>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </section>
+    <footer className="flex flex-col items-center gap-3 pb-6 text-center lg:pb-8">
+      <div className="flex items-center gap-5">
+        <a
+          href="https://linkedin.com/in/itstalhasattar"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-[#6B6B6B] hover:text-[#1E2A47] transition-colors"
+        >
+          LinkedIn
+        </a>
+        <span className="text-[#E5E5E2]">|</span>
+        <a
+          href="https://github.com/itstalhasattar"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-[#6B6B6B] hover:text-[#1E2A47] transition-colors"
+        >
+          GitHub
+        </a>
+        <span className="text-[#E5E5E2]">|</span>
+        <a
+          href="https://github.com/itstalhasattar/socratic-tutor"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-[#6B6B6B] hover:text-[#1E2A47] transition-colors"
+        >
+          Source
+        </a>
+      </div>
+      <p className="text-xs text-[#6B6B6B]">
+        Chat engine powered by Anthropic&apos;s Claude
+      </p>
+    </footer>
+    </div>
   );
 }
