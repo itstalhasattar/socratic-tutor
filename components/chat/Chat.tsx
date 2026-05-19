@@ -14,14 +14,17 @@ const INITIAL_MESSAGE: TMessage = {
 };
 
 export default function ChatSession() {
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [input, setInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<TMessagesHistory>([INITIAL_MESSAGE]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (mainRef.current) {
+      mainRef.current.scrollTop = mainRef.current.scrollHeight;
+    }
   }, [messages]);
 
   function handleClear() {
@@ -46,6 +49,10 @@ export default function ChatSession() {
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
     setInput("");
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    if (!isMobile) {
+      inputRef.current?.focus();
+    }
     setLoading(true);
 
     try {
@@ -175,7 +182,7 @@ export default function ChatSession() {
       </header>
 
       {/* Messages */}
-      <main className="flex-1 overflow-y-auto">
+      <main ref={mainRef} className="flex-1 overflow-y-auto">
         <div className="max-w-3xl px-6 py-8 mx-auto space-y-5">
           {messages.map((m, i) =>
             m.role === "assistant" ? (
@@ -185,7 +192,6 @@ export default function ChatSession() {
             ),
           )}
           {loading && <ModelLoading />}
-          <div ref={bottomRef} />
         </div>
       </main>
 
@@ -197,7 +203,9 @@ export default function ChatSession() {
               {userMessageCount}/20 questions asked
             </p>
             {input.length > 0 && (
-              <p className={`text-[11px] ml-auto ${input.length > 2900 ? "text-red-500" : "text-[#4A4A4A]"}`}>
+              <p
+                className={`text-[11px] ml-auto ${input.length > 2900 ? "text-red-500" : "text-[#4A4A4A]"}`}
+              >
                 {input.length}/3000
               </p>
             )}
@@ -207,9 +215,10 @@ export default function ChatSession() {
             className="flex items-center gap-2 bg-[#FAFAF7] border border-[#E5E5E2] rounded-full px-5 py-2.5 focus-within:border-[#1E2A47] transition-colors"
           >
             <input
+              ref={inputRef}
               type="text"
               name="message"
-              disabled={loading}
+              readOnly={loading}
               placeholder="Type your answer or ask a question..."
               className="flex-1 bg-transparent text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none "
               autoComplete="off"

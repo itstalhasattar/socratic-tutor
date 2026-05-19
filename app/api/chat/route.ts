@@ -14,6 +14,15 @@ async function incrementDailyTokenUsage(key: string, amount: number) {
 }
 
 
+async function checkipUsage(key: string, limit: number) {
+
+    const count = Number(await redis.get(key)) ?? 0;
+    if (count >= limit) {
+        return false;
+    }
+    return true;
+}
+
 
 export async function POST(req: Request) {
     try {
@@ -24,7 +33,10 @@ export async function POST(req: Request) {
         const usedDailyOutputToken = Number((await redis.get(OutputTokenKey) ?? 0))
         const DAILY_INPUT_TOKEN_LIMIT = Number(process.env.DAILY_INPUT_TOKEN_LIMIT);
         const DAILY_OUTPUT_TOKEN_LIMIT = Number(process.env.DAILY_OUTPUT_TOKEN_LIMIT);
+        const userIp = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "127.0.0.1";
+        const ipUsageKey = `ipUsage:${userIp}:${today}`;
 
+        console.log(userIp)
 
 
         const data = await req.json()
@@ -50,10 +62,27 @@ export async function POST(req: Request) {
                 { status: 429 }
             );
         }
+
+        const DAILY_IP_REQUEST_LIMIT = Number(process.env.DAILY_IP_REQUEST_LIMIT);
+        if (!Number.isNaN(DAILY_IP_REQUEST_LIMIT)) {
+            const ipAllowed = await checkipUsage(ipUsageKey, DAILY_IP_REQUEST_LIMIT);
+            if (!ipAllowed) {
+                return NextResponse.json(
+                    { success: false, error: "You've reached your daily session limit. Check back tomorrow!" },
+                    { status: 429 },
+                );
+            }
+        }
+
         const { message, inputToken, outputToken } = await assistant(parsedData.data)
 
         await incrementDailyTokenUsage(InputTokenKey, inputToken);
         await incrementDailyTokenUsage(OutputTokenKey, outputToken);
+        const total = await redis.incr(ipUsageKey);
+        if (total === 1) {
+            await redis.expire(ipUsageKey, TOKEN_KEY_TTL_SECONDS)
+            
+        }
 
 
         return NextResponse.json(
