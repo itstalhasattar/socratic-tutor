@@ -14,7 +14,10 @@ The project is built to communicate the product idea quickly: a calm educational
 - `/api/chat` validates conversation history before sending it to the model layer.
 - The backend uses a server-only Anthropic helper with a Socratic system prompt to generate tutor responses.
 - Daily input and output token usage is tracked with Redis to protect the shared demo budget.
+- Per-IP daily request limiting prevents a single visitor from exhausting the shared token pool.
 - Chat errors and validation messages are surfaced with toast notifications.
+- Custom 404 page matches the brand.
+- Landing page surfaces session constraints before users start chatting.
 
 ## Tech Stack
 
@@ -41,6 +44,7 @@ This project focuses on:
 - A chat interaction flow with reusable message components.
 - Server-side message validation before model requests.
 - Daily token limiting for shared demo usage.
+- Per-IP rate limiting to prevent abuse.
 - User-facing feedback for validation and API errors.
 - A dedicated Socratic system prompt that shapes tutor behavior.
 - A deployable app with documented setup and quality checks.
@@ -69,6 +73,7 @@ UPSTASH_REDIS_REST_URL=your_redis_rest_url_here
 UPSTASH_REDIS_REST_TOKEN=your_redis_rest_token_here
 DAILY_INPUT_TOKEN_LIMIT=300000
 DAILY_OUTPUT_TOKEN_LIMIT=200000
+DAILY_IP_REQUEST_LIMIT=40
 ```
 
 ## Quality Checks
