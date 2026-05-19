@@ -16,7 +16,7 @@ export default function ModelMessage({ message }: { message: string }) {
           />
         </svg>
       </div>
-      <div className="max-w-[80%] bg-[#F1EFE8] rounded-2xl rounded-tl-sm px-4 py-3 text-[15px] leading-relaxed text-[#1E2A47]">
+      <div className="max-w-[85%] sm:max-w-[80%] bg-[#F1EFE8] rounded-2xl rounded-tl-sm px-4 py-3 text-[15px] leading-relaxed text-[#1E2A47]">
         {message}
       </div>
     </div>

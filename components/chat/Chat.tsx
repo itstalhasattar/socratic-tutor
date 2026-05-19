@@ -90,7 +90,7 @@ export default function ChatSession() {
   }
 
   return (
-    <section className="flex flex-col h-screen bg-[#FAFAF7]">
+    <section className="flex flex-col h-dvh bg-[#FAFAF7]">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-[#E5E5E2]/80 shadow-[0_1px_0_rgba(30,42,71,0.02)]">
         <div className="flex items-center justify-between w-full h-16 px-4 md:px-8">
@@ -183,7 +183,7 @@ export default function ChatSession() {
 
       {/* Messages */}
       <main ref={mainRef} className="flex-1 overflow-y-auto">
-        <div className="max-w-3xl px-6 py-8 mx-auto space-y-5">
+        <div className="max-w-3xl px-4 sm:px-6 py-6 sm:py-8 mx-auto space-y-5">
           {messages.map((m, i) =>
             m.role === "assistant" ? (
               <ModelMessage key={i} message={m.content} />
@@ -212,7 +212,7 @@ export default function ChatSession() {
           </div>
           <form
             onSubmit={handleMessage}
-            className="flex items-center gap-2 bg-[#FAFAF7] border border-[#E5E5E2] rounded-full px-5 py-2.5 focus-within:border-[#1E2A47] transition-colors"
+            className="flex items-center gap-2 bg-[#FAFAF7] border border-[#E5E5E2] rounded-full px-4 sm:px-5 py-2.5 focus-within:border-[#1E2A47] transition-colors"
           >
             <input
               ref={inputRef}
@@ -220,7 +220,7 @@ export default function ChatSession() {
               name="message"
               readOnly={loading}
               placeholder="Type your answer or ask a question..."
-              className="flex-1 bg-transparent text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none "
+              className="flex-1 bg-transparent text-base sm:text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none "
               autoComplete="off"
               onChange={(e) => setInput(e.target.value)}
               value={input}
@@ -245,7 +245,7 @@ export default function ChatSession() {
               </svg>
             </button>
           </form>
-          <p className="mt-2 text-[11px] text-[#4A4A4A] text-center">
+          <p className="mt-2 text-xs sm:text-[11px] text-[#4A4A4A] text-center">
             Press Enter to send &middot; Token usage limited per conversation
           </p>
         </div>

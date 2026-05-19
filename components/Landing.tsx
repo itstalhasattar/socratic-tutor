@@ -41,7 +41,7 @@ export default function Landing() {
             adapts to your level and guides you step by step.
           </p>
 
-          <div className="max-w-md mt-8 space-y-3">
+          <div className="max-w-md mt-8 space-y-3 text-left">
             <p className="text-xs font-semibold tracking-[0.16em] uppercase text-[#D4A24C]">
               What to know
             </p>
@@ -66,7 +66,7 @@ export default function Landing() {
         </div>
 
         {/* Right column: sample conversation */}
-        <div className="w-full">
+        <div className="hidden w-full lg:block">
           <p className="mb-3 text-xs tracking-wider text-center uppercase text-[#4A4A4A] lg:text-left">
             Here&apos;s how a session might go
           </p>
