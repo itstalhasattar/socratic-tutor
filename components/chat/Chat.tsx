@@ -202,6 +202,13 @@ export default function ChatSession() {
             <p className="text-[11px] text-[#4A4A4A]">
               {userMessageCount}/20 questions asked
             </p>
+
+            {userMessageCount >= 20 && (
+              <p className="text-[11px] text-red-500 ml-auto">
+                Session limit reached. Tap &quot;Start over&quot; for a new
+                conversation.
+              </p>
+            )}
             {input.length > 0 && (
               <p
                 className={`text-[11px] ml-auto ${input.length > 2900 ? "text-red-500" : "text-[#4A4A4A]"}`}
@@ -216,11 +223,14 @@ export default function ChatSession() {
           >
             <input
               ref={inputRef}
+              disabled={userMessageCount >= 20}
               type="text"
               name="message"
               readOnly={loading}
               placeholder="Type your answer or ask a question..."
-              className="flex-1 bg-transparent text-base sm:text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none "
+              className={`flex-1 bg-transparent text-base sm:text-[15px] text-[#1E2A47] placeholder:text-[#4A4A4A] focus:outline-none ${
+                loading ? "opacity-60" : ""
+              }`}
               autoComplete="off"
               onChange={(e) => setInput(e.target.value)}
               value={input}

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen lg:h-screen lg:flex lg:flex-col">
+    <div className="min-h-screen bg-[#F8F6F0] lg:flex lg:flex-col">
       <section className="flex flex-1 items-center justify-center px-6 py-10 lg:py-6">
       <div className="grid items-center w-full max-w-6xl gap-10 mx-auto lg:grid-cols-2 lg:gap-16">
         {/* Left column: intro */}
